@@ -138,7 +138,7 @@ def update_easy():
         response = requests.get(pkg_url)
 
         if response.status_code == 200:
-            with open(f"easy.exe", "wb") as file:
+            with open(f"easy-update.exe", "wb") as file:
                 file.write(response.content)
             print(f"{Fore.GREEN}✔ {Fore.MAGENTA}easy{Fore.RESET} package been successfully downloaded.")
             print(f"{Fore.MAGENTA}› {Fore.RESET}Updating...")

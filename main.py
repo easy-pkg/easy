@@ -2,6 +2,7 @@ import json, os, sys, requests, json
 from colorama import Fore
 
 pkg_list_url = "https://easy.kotelek.dev/packages"
+# pkg_list_url = "http://localhost/easy-pm-api/packages/"
 easy_ver = "1.1"
 easy_location = os.getcwd()
 
@@ -60,6 +61,17 @@ def install(pkg_name):
                 pkg_url = pkg["pkg_url"]
                 pkg_install_script = pkg["install_script"]
                 download_package(pkg_url, pkg_name, pkg_install_script)
+
+                # Update easy.config.json with the installed package information
+                with open(f"{easy_location}\\easy.config.json", "r") as file:
+                    pkgs_file = json.load(file)
+
+                pkg_version = pkg.get("version", "unknown")
+                pkgs_file["packages"][pkg_name] = pkg_version
+
+                with open(f"{easy_location}\\easy.config.json", "w") as file:
+                    json.dump(pkgs_file, file, indent=2)
+
             else:
                 print(f"{Fore.RED}✘ {Fore.RESET}Incorrect package data.\n")
         else:

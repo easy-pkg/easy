@@ -13,7 +13,7 @@ def download_package(pkg_url, pkg_name, pkg_install_script):
     if response.status_code == 200:
         with open(f"{pkg_name}.exe", "wb") as file:
             file.write(response.content)
-        print(f"{Fore.GREEN}✓ {Fore.RESET}Package has been successfully downloaded.")
+        print(f"{Fore.GREEN}\u2713 {Fore.RESET}Package has been successfully downloaded.")
         print(f"{Fore.MAGENTA}› {Fore.RESET}Installing...")
         try:
             os.system(pkg_install_script)
@@ -30,7 +30,7 @@ def upgrade_package(pkg_url, pkg_name, pkg_install_script):
     if response.status_code == 200:
         with open(f"{pkg_name}.exe", "wb") as file:
             file.write(response.content)
-        print(f"{Fore.GREEN}✓ {Fore.RESET}Package has been successfully downloaded.")
+        print(f"{Fore.GREEN}\u2713 {Fore.RESET}Package has been successfully downloaded.")
         print(f"{Fore.MAGENTA}› {Fore.RESET}Updating...")
         try:
             os.system(pkg_install_script)
@@ -225,7 +225,7 @@ if __name__ == "__main__":
                 print(f"{Fore.GREEN}ℹ️{Fore.RESET}Update Found!")
                 print(f"{Fore.MAGENTA}v{get_easy_ver()} {Fore.RESET}-> {Fore.GREEN}{new_ver}")
                 print(f"{Fore.RESET}update using: {Fore.MAGENTA}easy update{Fore.RESET}\n")
-        elif command == "install":
+        elif command in ["install", "i"]:
             if(len(sys.argv) > 2):
                 print(f"easy (r) Package Manager {Fore.MAGENTA}v{get_easy_ver()}{Fore.RESET}\n")
                 package_name = sys.argv[2]

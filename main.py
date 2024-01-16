@@ -54,28 +54,31 @@ def install(pkg_name):
         response.raise_for_status()
         pkg_list = response.json()
 
-        if pkg_name in pkg_list["packages"]:
-            pkg = pkg_list["packages"][pkg_name]
-            
-            if "pkg_url" in pkg:
-                pkg_url = pkg["pkg_url"]
-                pkg_install_script = pkg["install_script"]
-                download_package(pkg_url, pkg_name, pkg_install_script)
-
-                # Update easy.config.json with the installed package information
-                with open(f"{easy_location}\\easy.config.json", "r") as file:
-                    pkgs_file = json.load(file)
-
-                pkg_version = pkg.get("version", "unknown")
-                pkgs_file["packages"][pkg_name] = pkg_version
-
-                with open(f"{easy_location}\\easy.config.json", "w") as file:
-                    json.dump(pkgs_file, file, indent=2)
-
-            else:
-                print(f"{Fore.RED}✘ {Fore.RESET}Incorrect package data.\n")
-        else:
+        if("error" in pkg_list):
             print(f"{Fore.RED}✘ {Fore.RESET}Package does not exist.\n")
+        else:
+            if pkg_name in pkg_list["packages"]:
+                pkg = pkg_list["packages"][pkg_name]
+                
+                if "pkg_url" in pkg:
+                    pkg_url = pkg["pkg_url"]
+                    pkg_install_script = pkg["install_script"]
+                    download_package(pkg_url, pkg_name, pkg_install_script)
+
+                    # Update easy.config.json with the installed package information
+                    with open(f"{easy_location}\\easy.config.json", "r") as file:
+                        pkgs_file = json.load(file)
+
+                    pkg_version = pkg.get("version", "unknown")
+                    pkgs_file["packages"][pkg_name] = pkg_version
+
+                    with open(f"{easy_location}\\easy.config.json", "w") as file:
+                        json.dump(pkgs_file, file, indent=2)
+
+                else:
+                    print(f"{Fore.RED}✘ {Fore.RESET}Incorrect package data.\n")
+            else:
+                print(f"{Fore.RED}✘ {Fore.RESET}Package does not exist.\n")
 
     except requests.exceptions.RequestException as e:
         print(f"{Fore.RED}✘ {Fore.RESET}Error during HTTP request: {e}\n")
@@ -90,17 +93,20 @@ def upgrade(pkg_name):
         response.raise_for_status()
         pkg_list = response.json()
 
-        if pkg_name in pkg_list["packages"]:
-            pkg = pkg_list["packages"][pkg_name]
-            
-            if "pkg_url" in pkg:
-                pkg_url = pkg["pkg_url"]
-                pkg_install_script = pkg["install_script"]
-                upgrade_package(pkg_url, pkg_name, pkg_install_script)
-            else:
-                print(f"{Fore.RED}✘ {Fore.RESET}Incorrect package data.\n")
-        else:
+        if("error" in pkg_list):
             print(f"{Fore.RED}✘ {Fore.RESET}Package does not exist.\n")
+        else:
+            if pkg_name in pkg_list["packages"]:
+                pkg = pkg_list["packages"][pkg_name]
+                
+                if "pkg_url" in pkg:
+                    pkg_url = pkg["pkg_url"]
+                    pkg_install_script = pkg["install_script"]
+                    upgrade_package(pkg_url, pkg_name, pkg_install_script)
+                else:
+                    print(f"{Fore.RED}✘ {Fore.RESET}Incorrect package data.\n")
+            else:
+                print(f"{Fore.RED}✘ {Fore.RESET}Package does not exist.\n")
 
     except requests.exceptions.RequestException as e:
         print(f"{Fore.RED}✘ {Fore.RESET}Error during HTTP request: {e}\n")

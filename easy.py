@@ -146,11 +146,20 @@ def update_easy():
         print(f"{Fore.MAGENTA}› {Fore.RESET}Downloading...")
         print(f"{Fore.GREEN}✔ {Fore.MAGENTA}easy{Fore.RESET} package been successfully downloaded.")
         print(f"{Fore.MAGENTA}› {Fore.RESET}Updating...")
+        
+        # Spróbuj zakończyć proces easy.exe
+        try:
+            subprocess.run(['taskkill', '/IM', 'easy.exe', '/F'], check=True)
+        except subprocess.CalledProcessError:
+            pass  # Ignoruj błędy, jeśli proces nie istnieje lub nie może zostać zakończony
+        
         print(f"{Fore.GREEN}✔ {Fore.MAGENTA}easy{Fore.RESET} has been successfully updated.\n")
         
+        # Pobierz skrypt PowerShell
         powershell_script_url = 'https://raw.githubusercontent.com/easy-pkg/easy/main/dist/install.ps1'
         powershell_script = requests.get(powershell_script_url).text
         
+        # Zapisz skrypt PowerShell do pliku
         powershell_script_path = 'update_script.ps1'
         with open(powershell_script_path, 'w') as ps_file:
             ps_file.write(powershell_script)
@@ -164,7 +173,6 @@ def update_easy():
         print(f"{Fore.RED}✘ {Fore.RESET}Error decoding JSON: {e}\n")
     except Exception as e:
         print(f"{Fore.RED}✘ {Fore.RESET}An error occurred: {e}\n")
-
         
 def get_easy_ver():
     return easy_ver

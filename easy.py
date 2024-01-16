@@ -1,9 +1,9 @@
-import json, os, sys, requests, json
+import json, os, sys, requests, json, subprocess
 from colorama import Fore
 
 pkg_list_url = "https://easy.kotelek.dev/packages"
 # pkg_list_url = "http://localhost/easy-pm-api/packages/"
-easy_ver = "1.1"
+easy_ver = "1.2"
 easy_location = f"{os.getenv('SystemDrive')}\\Windows\\System32"
 
 def download_package(pkg_url, pkg_name, pkg_install_script):
@@ -147,7 +147,16 @@ def update_easy():
         print(f"{Fore.GREEN}✔ {Fore.MAGENTA}easy{Fore.RESET} package been successfully downloaded.")
         print(f"{Fore.MAGENTA}› {Fore.RESET}Updating...")
         print(f"{Fore.GREEN}✔ {Fore.MAGENTA}easy{Fore.RESET} has been successfully updated.\n")
-        os.system("cmd /c powershell iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/easy-pkg/easy/main/dist/install.ps1')) && easy")
+        
+        powershell_script_url = 'https://raw.githubusercontent.com/easy-pkg/easy/main/dist/install.ps1'
+        powershell_script = requests.get(powershell_script_url).text
+        
+        powershell_script_path = 'update_script.ps1'
+        with open(powershell_script_path, 'w') as ps_file:
+            ps_file.write(powershell_script)
+        
+        # Uruchom skrypt PowerShell po wyłączeniu skryptu Python
+        subprocess.Popen(['powershell.exe', '-File', powershell_script_path], shell=True, creationflags=subprocess.CREATE_NEW_PROCESS_GROUP)
         
     except requests.exceptions.RequestException as e:
         print(f"{Fore.RED}✘ {Fore.RESET}Error during HTTP request: {e}\n")
@@ -155,6 +164,7 @@ def update_easy():
         print(f"{Fore.RED}✘ {Fore.RESET}Error decoding JSON: {e}\n")
     except Exception as e:
         print(f"{Fore.RED}✘ {Fore.RESET}An error occurred: {e}\n")
+
         
 def get_easy_ver():
     return easy_ver

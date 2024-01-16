@@ -193,6 +193,7 @@ def check_and_delete_update_script():
 
 if __name__ == "__main__":
     check_and_delete_update_script()
+    sys.stdout.reconfigure(encoding='utf-8')
     if len(sys.argv) < 2:
         info()
     else:

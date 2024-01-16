@@ -9,4 +9,4 @@ Start-Sleep -Seconds 1
 # Download default easy config
 Invoke-WebRequest -Uri "https://github.com/easy-pkg/easy/raw/main/dist/easy.config.json" -OutFile "$systemDrive\Windows\System32\easy.config.json"
 # Output the message in one line
-Write-Host -NoNewline "$(Write-Host -ForegroundColor Green 'i') $(Write-Host -ForegroundColor Magenta 'easy') $(Write-Host -ForegroundColor White 'has been updated.')"
+Write-Host -NoNewline ("[i] [1;35m easy [0m has been updated.")

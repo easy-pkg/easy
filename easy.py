@@ -13,11 +13,11 @@ def download_package(pkg_url, pkg_name, pkg_install_script):
     if response.status_code == 200:
         with open(f"{pkg_name}.exe", "wb") as file:
             file.write(response.content)
-        print(f"{Fore.GREEN}✔ {Fore.RESET}Package has been successfully downloaded.")
+        print(f"{Fore.GREEN}✓ {Fore.RESET}Package has been successfully downloaded.")
         print(f"{Fore.MAGENTA}› {Fore.RESET}Installing...")
         try:
             os.system(pkg_install_script)
-            print(f"{Fore.GREEN}✔ {Fore.RESET}Package has been successfully installed.\n")
+            print(f"{Fore.GREEN}✓ {Fore.RESET}Package has been successfully installed.\n")
         except:
             print(f"{Fore.RED}✘ {Fore.RESET}Failed to install the package.\n")
     else:
@@ -30,11 +30,11 @@ def upgrade_package(pkg_url, pkg_name, pkg_install_script):
     if response.status_code == 200:
         with open(f"{pkg_name}.exe", "wb") as file:
             file.write(response.content)
-        print(f"{Fore.GREEN}✔ {Fore.RESET}Package has been successfully downloaded.")
+        print(f"{Fore.GREEN}✓ {Fore.RESET}Package has been successfully downloaded.")
         print(f"{Fore.MAGENTA}› {Fore.RESET}Updating...")
         try:
             os.system(pkg_install_script)
-            print(f"{Fore.GREEN}✔ {Fore.RESET}Package has been successfully updated.\n")
+            print(f"{Fore.GREEN}✓ {Fore.RESET}Package has been successfully updated.\n")
         except:
             print(f"{Fore.RED}✘ {Fore.RESET}Failed to update the package.\n")
     else:
@@ -44,7 +44,7 @@ def uninstall_package(pkg_uninstall_script):
     print(f"{Fore.MAGENTA}› {Fore.RESET}Uninstalling...")
     try:
         os.system(pkg_uninstall_script)
-        print(f"{Fore.GREEN}✔ {Fore.RESET}Package has been successfully uninstalled.\n")
+        print(f"{Fore.GREEN}✓ {Fore.RESET}Package has been successfully uninstalled.\n")
     except:
         print(f"{Fore.RED}✘ {Fore.RESET}Failed to uninstall the package.\n")
 
@@ -144,15 +144,15 @@ def uninstall(pkg_name):
 def update_easy():
     try:
         print(f"{Fore.MAGENTA}› {Fore.RESET}Downloading upate script...")
-        print(f"{Fore.GREEN}✔ {Fore.MAGENTA}easy{Fore.RESET} update has been successfully downloaded.")
+        print(f"{Fore.GREEN}✓ {Fore.MAGENTA}easy{Fore.RESET} update has been successfully downloaded.")
         print(f"{Fore.MAGENTA}› {Fore.RESET}Updating...")
         
-        print(f"{Fore.GREEN}✔ {Fore.MAGENTA}easy{Fore.RESET} will be updated after this message.\n")
+        print(f"{Fore.GREEN}✓ {Fore.MAGENTA}easy{Fore.RESET} will be updated after this message.\n")
         
         powershell_script_url = 'https://raw.githubusercontent.com/easy-pkg/easy/main/dist/update.ps1'
         powershell_script = requests.get(powershell_script_url).text
         
-        powershell_script_path = 'update.ps1'
+        powershell_script_path = f'{easy_location}\\update.ps1'
         with open(powershell_script_path, 'w') as ps_file:
             ps_file.write(powershell_script)
          
@@ -184,8 +184,15 @@ def info():
         print(f"{Fore.RESET}update using: {Fore.MAGENTA}easy update{Fore.RESET}\n")
     print(f"usage: {Fore.MAGENTA}easy [<command>] [<options>]{Fore.RESET}")
     print(f"For command list: {Fore.MAGENTA}easy help{Fore.RESET}\n")
+    
+def check_and_delete_update_script():
+    update_script_path = os.path.join(easy_location, "update.ps1")
+    if os.path.exists(update_script_path):
+        os.remove(update_script_path)
+        print(f"{Fore.MAGENTA}› {Fore.RESET}Existing update.ps1 file has been deleted.")
 
 if __name__ == "__main__":
+    check_and_delete_update_script()
     if len(sys.argv) < 2:
         info()
     else:

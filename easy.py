@@ -3,7 +3,7 @@ from colorama import Fore
 
 pkg_list_url = "https://easy.kotelek.dev/packages"
 # pkg_list_url = "http://localhost/easy-pm-api/packages/"
-easy_ver = "1.2"
+easy_ver = "1.3"
 easy_location = f"{os.getenv('SystemDrive')}\\Windows\\System32"
 
 def download_package(pkg_url, pkg_name, pkg_install_script):
@@ -11,7 +11,7 @@ def download_package(pkg_url, pkg_name, pkg_install_script):
     response = requests.get(pkg_url)
 
     if response.status_code == 200:
-        with open(f"{pkg_name}.exe", "wb") as file:
+        with open(f"{easy_location}{pkg_name}.exe", "wb") as file:
             file.write(response.content)
         print(f"{Fore.GREEN}\u2713 {Fore.RESET}Package has been successfully downloaded.")
         print(f"{Fore.MAGENTA}› {Fore.RESET}Installing...")
@@ -28,7 +28,7 @@ def upgrade_package(pkg_url, pkg_name, pkg_install_script):
     response = requests.get(pkg_url)
 
     if response.status_code == 200:
-        with open(f"{pkg_name}.exe", "wb") as file:
+        with open(f"{easy_location}{pkg_name}.exe", "wb") as file:
             file.write(response.content)
         print(f"{Fore.GREEN}\u2713 {Fore.RESET}Package has been successfully downloaded.")
         print(f"{Fore.MAGENTA}› {Fore.RESET}Updating...")
@@ -189,7 +189,6 @@ def check_and_delete_update_script():
     update_script_path = os.path.join(easy_location, "update.ps1")
     if os.path.exists(update_script_path):
         os.remove(update_script_path)
-        print(f"{Fore.MAGENTA}› {Fore.RESET}Existing update.ps1 file has been deleted.")
 
 if __name__ == "__main__":
     check_and_delete_update_script()

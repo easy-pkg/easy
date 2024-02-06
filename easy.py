@@ -11,7 +11,7 @@ def download_package(pkg_url, pkg_name, pkg_install_script):
     response = requests.get(pkg_url)
 
     if response.status_code == 200:
-        with open(f"{easy_location}{pkg_name}.exe", "wb") as file:
+        with open(f"{easy_location}\\{pkg_name}.exe", "wb") as file:
             file.write(response.content)
         print(f"{Fore.GREEN}\u2713 {Fore.RESET}Package has been successfully downloaded.")
         print(f"{Fore.MAGENTA}› {Fore.RESET}Installing...")
@@ -28,7 +28,7 @@ def upgrade_package(pkg_url, pkg_name, pkg_install_script):
     response = requests.get(pkg_url)
 
     if response.status_code == 200:
-        with open(f"{easy_location}{pkg_name}.exe", "wb") as file:
+        with open(f"{easy_location}\\{pkg_name}.exe", "wb") as file:
             file.write(response.content)
         print(f"{Fore.GREEN}\u2713 {Fore.RESET}Package has been successfully downloaded.")
         print(f"{Fore.MAGENTA}› {Fore.RESET}Updating...")

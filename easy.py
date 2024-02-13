@@ -3,7 +3,7 @@ from colorama import Fore
 
 pkg_list_url = "https://easy.kotelek.dev/packages"
 # pkg_list_url = "http://localhost/easy-pm-api/packages/"
-easy_ver = "1.3"
+easy_ver = "1.5"
 easy_location = f"{os.getenv('SystemDrive')}\\Windows\\System32"
 
 def download_package(pkg_url, pkg_name, pkg_install_script):
